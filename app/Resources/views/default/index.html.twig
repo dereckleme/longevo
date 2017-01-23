@@ -7,8 +7,16 @@
                 <h1>SISTEMA LONGEVO SAC</h1>
             </div>
 
-            {% if list is not empty %}
             <h4>Lista de Pedidos</h4>
+            <form action="{{ url('homepage') }}" method="post" style="clear: both">
+                <input name="buscarTexto" style="width: 200px;float:left" type="text" class="form-control" placeholder="Busca por:"><select name="option" class="form-control" style="width: 100px;float:left">
+                    <option value="email">Email</option>
+                    <option value="pedido">Id Pedido</option>
+                </select>
+                <input style="width: 100px;float:left" type="submit" class="btn btn-success" value="Buscar">
+            </form>
+
+            {% if list is not empty %}
             <table class="table table-striped">
                 <tr>
                     <td><b>#ID Pedido</b></td>
@@ -26,7 +34,7 @@
                 {% endfor %}
             </table>
             {% else %}
-                <center>Não existe pedidos registrados!</center>
+                <div style="clear: both"><center>Não existe pedidos registrados!</center></div>
             {% endif %}
             <a href="{{ url('adicionarChamado') }}" class="adicionarChamado btn btn-info">Adicionar Chamado</a>
             <div class="navigation">

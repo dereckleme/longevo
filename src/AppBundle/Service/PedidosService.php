@@ -11,6 +11,9 @@ use Doctrine\ORM\EntityManager;
  */
 class PedidosService
 {
+    CONST SEARCH_BY_EMAIL = "email";
+    CONST SEARCH_BY_PEDIDO = "pedido";
+
     /**
      * @var EntityManager
      */
@@ -28,9 +31,19 @@ class PedidosService
     /**
      * @return mixed
      */
-    public function getListaPedidos()
+    public function getListaPedidos($data)
     {
-        $dql = $this->em->getRepository("AppBundle:Pedidos")->getListPedidos();
+        if (isset($data['buscarTexto'])) {
+            if (isset($data['option']) && $data['option'] == $this::SEARCH_BY_EMAIL) {
+                $dql = $this->em->getRepository("AppBundle:Pedidos")->getListPedidosByEmail($data['buscarTexto']);
+            } else if (isset($data['option']) && $data['option'] == $this::SEARCH_BY_PEDIDO && is_numeric($data['buscarTexto'])) {
+                $dql = $this->em->getRepository("AppBundle:Pedidos")->getListPedidosById($data['buscarTexto']);
+            } else {
+                $dql = $this->em->getRepository("AppBundle:Pedidos")->getListPedidos();
+            }
+        } else {
+            $dql = $this->em->getRepository("AppBundle:Pedidos")->getListPedidos();
+        }
 
         return $dql;
     }

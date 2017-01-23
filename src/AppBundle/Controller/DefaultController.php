@@ -19,9 +19,10 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $dataRequest = $request->request->all();
         $em    = $this->get('doctrine.orm.entity_manager');
         $servicePedidos = $this->get('pedidos.service');
-        $dql = $servicePedidos->getListaPedidos();
+        $dql = $servicePedidos->getListaPedidos($dataRequest);
         $query = $em->createQuery($dql);
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
